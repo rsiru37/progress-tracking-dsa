@@ -45,12 +45,6 @@ app.post("/signin", async(req,res) => {
             console.log("TOKEN", token);
             res.cookie("token",token);
             res.status(200).json({message:"Logged in", token:token});
-            // if(existing_user.role == "REGULAR"){
-            //     res.status(200).json({message:"Logged in as regular", token:token});
-            // }
-            // if(existing_user.role == "ADMIN"){
-            //     res.status(201).json({message:"Logged in as admin", token:token});
-            // }
         }
         else{
             res.status(400).json({message:"Wrong Password"});
@@ -118,6 +112,7 @@ app.get("/progress", auth, async(req,res) => {
         const user_progress = await prisma.progress.findMany({
             where:{user_id:user_id}
         }); // Fetching all the User Progress given the user_id
+        res.status(200).json({user_progress});
     } catch (error) {
         res.status(500).json({message:error});
     }
@@ -144,4 +139,4 @@ app.put("/complete-task", auth, async(req,res) => {
 
 
 
-app.listen(3000, () => {console.log("Backend Started!")})
+app.listen(3001, () => {console.log("Backend Started!")})
